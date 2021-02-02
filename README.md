@@ -42,7 +42,23 @@ as described in the implementation steps.
 
 #### Usage
 
+```
+Usage: porter-duff.exe [params]
 
+        -g, --grayscale
+                read grayscale
+        -h, --help (value:true)
+                show help message
+        --i1, --image1 (value:<none>)
+                input image
+        --i2, --image2 (value:<none>)
+                input image
+        --m1, --mask1 (value:<none>)
+                input image
+        --m2, --mask2 (value:<none>)
+                input image
+
+```
 
 ----
 

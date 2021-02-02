@@ -13,18 +13,18 @@ OBJECTS = $(patsubst %.cpp, %.o, ${SOURCES})
 
 default: all
 
-all: porter_duff
+all: porter-duff
 
 %.o: %.cpp $(DEPS)
 	${CC} -c $^ -I ${IDIR} -I ${IOPENCV}
 
-porter_duff: $(OBJECTS)
+porter-duff: $(OBJECTS)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
 	$(RM) $(OBJECTS) ${wildcard ${IDIR}/*.gch}
 
 destroy:
-	$(RM) $(OBJECTS) highlight huffman ${wildcard ${IDIR}/*.gch}
+	$(RM) $(OBJECTS) porter-duff ${wildcard ${IDIR}/*.gch}
 
 # https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
