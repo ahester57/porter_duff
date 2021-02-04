@@ -50,17 +50,15 @@ wait_key()
 cv::Mat
 do_clear(cv::Mat src)
 {
-    cv::Mat copy;
-    src.copyTo(copy);
-    return clear(copy);
+    return clear_i1(src);
 }
 
 
 cv::Mat
 do_copy(cv::Mat src)
 {
-    cv::Mat copy;
-    return copy_i1(src, copy);
+    // cv::Mat copy;
+    return copy_i1(src);
 }
 
 

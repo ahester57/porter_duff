@@ -9,11 +9,11 @@
 
 // Ir = 0
 // Mr = 0
-cv::Mat clear(cv::Mat src);
+cv::Mat clear_i1(cv::Mat src);
 
 // Ir = I1
 // Mr = M1
-cv::Mat copy_i1(cv::Mat src, cv::Mat dst);
+cv::Mat copy_i1(cv::Mat src);
 
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ M2 ∧ ¬M1)
 // Mr = M1 ∨ M2

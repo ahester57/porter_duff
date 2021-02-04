@@ -10,7 +10,7 @@
 // Ir = 0
 // Mr = 0
 cv::Mat
-clear(cv::Mat src)
+clear_i1(cv::Mat src)
 {
     return cv::Mat::zeros(src.size(), src.type());
 }
@@ -18,8 +18,9 @@ clear(cv::Mat src)
 // Ir = I1
 // Mr = M1
 cv::Mat
-copy_i1(cv::Mat src, cv::Mat dst)
+copy_i1(cv::Mat src)
 {
+    cv::Mat dst;
     src.copyTo(dst);
     return dst;
 }
