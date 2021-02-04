@@ -17,22 +17,24 @@ cv::Mat copy_i1(cv::Mat src);
 
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ M2 ∧ ¬M1)
 // Mr = M1 ∨ M2
-cv::Mat i1_over_i2(cv::Mat img1, cv::Mat img2);
+cv::Vec3b i1_over_i2(cv::Vec3b pixel1, cv::Vec3b pixel2);
 
 // Ir = I1
 // Mr = M1 ∧ M2
-cv::Mat i1_in_i2(cv::Mat img1, cv::Mat img2);
+cv::Vec3b i1_in_i2(cv::Vec3b pixel1, cv::Vec3b pixel2);
 
 // Ir = I1
 // Mr = M1 ∧ ¬M2
-cv::Mat i1_out_i2(cv::Mat img1, cv::Mat img2);
+cv::Vec3b i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2);
 
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ ¬M2)
 // Mr = M2
-cv::Mat i1_atop_i2(cv::Mat img1, cv::Mat img2);
+cv::Vec3b i1_atop_i2(cv::Vec3b pixel1, cv::Vec3b pixel2);
 
 // Ir = (I1 ∧ M1 ∧ ¬M2) ∨ (I2 ∧ ¬M1 ∧ M2)
 // Mr = (M1 ∧ ¬M2) ∨ (¬M1 ∧ M2)
-cv::Mat i1_xor_i2(cv::Mat img1, cv::Mat img2);
+cv::Vec3b i1_xor_i2(cv::Vec3b pixel1, cv::Vec3b pixel2);
+
+cv::Mat do_porter_operation(cv::Vec3b operation(cv::Vec3b, cv::Vec3b), cv::Mat img1, cv::Mat img2);
 
 #endif

@@ -75,28 +75,28 @@ do_porter_duff_ops(cv::Mat image1, cv::Mat image2)
 
     while (wait_key());
 
-    cv::imshow("1_over_2", i1_over_i2(image1, image2));
-    cv::imshow("2_over_1", i1_over_i2(image2, image1));
+    cv::imshow("1_over_2", do_porter_operation(i1_over_i2, image1, image2));
+    cv::imshow("2_over_1", do_porter_operation(i1_over_i2, image2, image1));
 
     while (wait_key());
 
-    cv::imshow("1_in_2", i1_in_i2(image1, image2));
-    cv::imshow("2_in_1", i1_in_i2(image2, image1));
+    cv::imshow("1_in_2", do_porter_operation(i1_in_i2, image1, image2));
+    cv::imshow("2_in_1", do_porter_operation(i1_in_i2, image2, image1));
 
     while (wait_key());
 
-    cv::imshow("1_out_2", i1_out_i2(image1, image2));
-    cv::imshow("2_out_1", i1_out_i2(image2, image1));
+    cv::imshow("1_out_2", do_porter_operation(i1_out_i2, image1, image2));
+    cv::imshow("2_out_1", do_porter_operation(i1_out_i2, image2, image1));
 
     while (wait_key());
 
-    cv::imshow("1_atop_2", i1_atop_i2(image1, image2));
-    cv::imshow("2_atop_1", i1_atop_i2(image2, image1));
+    cv::imshow("1_atop_2", do_porter_operation(i1_atop_i2, image1, image2));
+    cv::imshow("2_atop_1", do_porter_operation(i1_atop_i2, image2, image1));
 
     while (wait_key());
 
-    cv::imshow("1_xor_2", i1_xor_i2(image1, image2));
-    cv::imshow("2_xor_1", i1_xor_i2(image2, image1));
+    cv::imshow("1_xor_2", do_porter_operation(i1_xor_i2, image1, image2));
+    cv::imshow("2_xor_1", do_porter_operation(i1_xor_i2, image2, image1));
 }
 
 
