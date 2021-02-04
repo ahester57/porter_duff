@@ -25,7 +25,7 @@ std::string maskFile2;
 
 const int default_height = 480;
 const int default_width = 640;
-
+const cv::Size default_size = cv::Size(default_width, default_height);
 
 // 'event loop' for keypresses
 int
@@ -118,7 +118,7 @@ main(int argc, const char** argv)
 
     if (imageFile1.size() == 0) {
         std::cout << "Using default image1" << std::endl;
-        image1 = cv::Mat::zeros(default_height, default_width, CV_8UC3);
+        image1 = cv::Mat::zeros(default_size, CV_8UC3);
         // draw a blue circle
         cv::circle(image1,
             cv::Point((default_width/2), (default_height/2)), 150,
@@ -128,17 +128,19 @@ main(int argc, const char** argv)
     } else {
         // open image, grayscale = true
         open_image(image1, imageFile1.c_str(), false);
+        cv::resize(image1, image1, default_size);
     }
 
     if (imageFile2.size() == 0) {
         std::cout << "Using default image2" << std::endl;
-        image2 = cv::Mat::zeros(default_height, default_width, CV_8UC3);
+        image2 = cv::Mat::zeros(default_size, CV_8UC3);
         // draw a red cross
         centered_rectangle(image2, 96, 512, cv::Scalar(0, 77, 222));
         centered_rectangle(image2, 548, 128, cv::Scalar(0, 77, 222));
     } else {
         // open image, grayscale = true
         open_image(image2, imageFile2.c_str(), false);
+        cv::resize(image2, image2, default_size);
     }
 
     // deep keep to displayed_image
