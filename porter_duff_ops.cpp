@@ -10,9 +10,9 @@
 // Ir = 0
 // Mr = 0
 cv::Mat
-clear(cv::Mat src, cv::Mat dst)
+clear(cv::Mat src)
 {
-    return cv::Mat();
+    return cv::Mat::zeros(src.size(), src.type());
 }
 
 // Ir = I1
@@ -20,13 +20,14 @@ clear(cv::Mat src, cv::Mat dst)
 cv::Mat
 copy_i1(cv::Mat src, cv::Mat dst)
 {
-    return cv::Mat();
+    src.copyTo(dst);
+    return dst;
 }
 
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ M2 ∧ ¬M1)
 // Mr = M1 ∨ M2
 cv::Mat
-i1_over_i2(cv::Mat src, cv::Mat dst)
+i1_over_i2(cv::Mat img1, cv::Mat img2)
 {
     return cv::Mat();
 }
@@ -34,7 +35,7 @@ i1_over_i2(cv::Mat src, cv::Mat dst)
 // Ir = I1
 // Mr = M1 ∧ M2
 cv::Mat
-i1_in_i2(cv::Mat src, cv::Mat dst)
+i1_in_i2(cv::Mat img1, cv::Mat img2)
 {
     return cv::Mat();
 }
@@ -42,7 +43,7 @@ i1_in_i2(cv::Mat src, cv::Mat dst)
 // Ir = I1
 // Mr = M1 ∧ ¬M2
 cv::Mat
-i1_out_i2(cv::Mat src, cv::Mat dst)
+i1_out_i2(cv::Mat img1, cv::Mat img2)
 {
     return cv::Mat();
 }
@@ -50,7 +51,7 @@ i1_out_i2(cv::Mat src, cv::Mat dst)
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ ¬M2)
 // Mr = M2
 cv::Mat
-i1_atop_i2(cv::Mat src, cv::Mat dst)
+i1_atop_i2(cv::Mat img1, cv::Mat img2)
 {
     return cv::Mat();
 }
@@ -58,7 +59,7 @@ i1_atop_i2(cv::Mat src, cv::Mat dst)
 // Ir = (I1 ∧ M1 ∧ ¬M2) ∨ (I2 ∧ ¬M1 ∧ M2)
 // Mr = (M1 ∧ ¬M2) ∨ (¬M1 ∧ M2)
 cv::Mat
-i1_xor_i2(cv::Mat src, cv::Mat dst)
+i1_xor_i2(cv::Mat img1, cv::Mat img2)
 {
     return cv::Mat();
 }

@@ -47,13 +47,20 @@ wait_key()
 }
 
 
-// save the ROI to a cv::Mat
 cv::Mat
-extract_roi(cv::Mat src, cv::Rect rect)
+do_clear(cv::Mat src)
 {
-    cv::Mat dst;
-    src(rect).copyTo(dst);
-    return dst;
+    cv::Mat copy;
+    src.copyTo(copy);
+    return clear(copy);
+}
+
+
+cv::Mat
+do_copy(cv::Mat src)
+{
+    cv::Mat copy;
+    return copy_i1(src, copy);
 }
 
 
@@ -116,8 +123,18 @@ main(int argc, const char** argv)
     std::cout << "\nShortcuts:\n\tq\t- quit\n";
 
     // display the original images
-    cv::imshow(WINDOW_NAME, image1);
-    cv::imshow("2", image2);
+    cv::imshow(WINDOW_NAME + "_1", image1);
+    cv::imshow(WINDOW_NAME + "_2", image2);
+
+    while (wait_key());
+
+    cv::imshow("Clear_1", do_clear(image1));
+    cv::imshow("Clear_2", do_clear(image2));
+
+    while (wait_key());
+
+    cv::imshow("Copy_1", do_copy(image1));
+    cv::imshow("Copy_2", do_copy(image2));
 
     // 'event loop' for keypresses
     while (wait_key());
