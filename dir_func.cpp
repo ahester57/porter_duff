@@ -11,9 +11,10 @@
 #include "./include/string_helper.hpp"
 
 
-void
-open_image(cv::Mat dst, std::string file_path, bool grayscale)
+cv::Mat
+open_image(std::string file_path, bool grayscale)
 {
+    cv::Mat dst;
     try {
         // attempt to read the image
         if (grayscale) {
@@ -25,12 +26,12 @@ open_image(cv::Mat dst, std::string file_path, bool grayscale)
         assert(!dst.empty());
 
         std::cout << "Image size is:\t\t\t" << dst.cols << "x" << dst.rows << std::endl;
-
     } catch (std::string &str) {
         std::cerr << "Error: " << file_path << ": " << str << std::endl;
     } catch (cv::Exception &e) {
         std::cerr << "Error: " << file_path << ": " << e.msg << std::endl;
     }
+    return dst;
 }
 
 int

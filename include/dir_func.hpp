@@ -11,7 +11,7 @@
 #include <iostream>
 
 
-void open_image(cv::Mat dst, std::string file_path, bool grayscale);
+cv::Mat open_image(std::string file_path, bool grayscale);
 int create_dir_recursive(std::string dst_file);
 int write_img_to_file(cv::Mat image, std::string output_dir, std::string file_name);
 

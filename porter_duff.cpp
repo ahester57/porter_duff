@@ -127,7 +127,7 @@ main(int argc, const char** argv)
         );
     } else {
         // open image, grayscale = true
-        open_image(image1, imageFile1.c_str(), false);
+        image1 = open_image(imageFile1.c_str(), false);
         cv::resize(image1, image1, default_size);
     }
 
@@ -139,7 +139,7 @@ main(int argc, const char** argv)
         centered_rectangle(image2, 548, 128, cv::Scalar(0, 77, 222));
     } else {
         // open image, grayscale = true
-        open_image(image2, imageFile2.c_str(), false);
+        image2 = open_image(imageFile2.c_str(), false);
         cv::resize(image2, image2, default_size);
     }
 
