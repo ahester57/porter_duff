@@ -71,8 +71,11 @@ i1_xor_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 
 // do given operation on given images
 cv::Mat
-do_porter_operation(cv::Vec3b operation(cv::Vec3b, cv::Vec3b), cv::Mat img1, cv::Mat img2)
-{
+do_porter_operation(
+    cv::Vec3b operation(cv::Vec3b, cv::Vec3b),
+    cv::Mat img1, cv::Mat img2,
+    cv::Mat mask1, cv::Mat mask2
+) {
     assert(img1.size() == img2.size());
     assert(img1.type() == img2.type());
     cv::Mat result = cv::Mat::zeros(img1.size(), img1.type());

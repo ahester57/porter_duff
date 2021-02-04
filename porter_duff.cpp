@@ -63,7 +63,7 @@ centered_rectangle(cv::Mat dst, int w, int h, cv::Scalar color)
 
 
 void
-do_porter_duff_ops(cv::Mat image1, cv::Mat image2)
+do_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
 {
     cv::imshow("clear_1", clear_i1(image1));
     cv::imshow("clear_2", clear_i1(image2));
@@ -75,28 +75,28 @@ do_porter_duff_ops(cv::Mat image1, cv::Mat image2)
 
     while (wait_key());
 
-    cv::imshow("1_over_2", do_porter_operation(i1_over_i2, image1, image2));
-    cv::imshow("2_over_1", do_porter_operation(i1_over_i2, image2, image1));
+    cv::imshow("1_over_2", do_porter_operation(i1_over_i2, image1, image2, mask1, mask2));
+    cv::imshow("2_over_1", do_porter_operation(i1_over_i2, image2, image1, mask2, mask1));
 
     while (wait_key());
 
-    cv::imshow("1_in_2", do_porter_operation(i1_in_i2, image1, image2));
-    cv::imshow("2_in_1", do_porter_operation(i1_in_i2, image2, image1));
+    cv::imshow("1_in_2", do_porter_operation(i1_in_i2, image1, image2, mask1, mask2));
+    cv::imshow("2_in_1", do_porter_operation(i1_in_i2, image2, image1, mask2, mask1));
 
     while (wait_key());
 
-    cv::imshow("1_out_2", do_porter_operation(i1_out_i2, image1, image2));
-    cv::imshow("2_out_1", do_porter_operation(i1_out_i2, image2, image1));
+    cv::imshow("1_out_2", do_porter_operation(i1_out_i2, image1, image2, mask1, mask2));
+    cv::imshow("2_out_1", do_porter_operation(i1_out_i2, image2, image1, mask2, mask1));
 
     while (wait_key());
 
-    cv::imshow("1_atop_2", do_porter_operation(i1_atop_i2, image1, image2));
-    cv::imshow("2_atop_1", do_porter_operation(i1_atop_i2, image2, image1));
+    cv::imshow("1_atop_2", do_porter_operation(i1_atop_i2, image1, image2, mask1, mask2));
+    cv::imshow("2_atop_1", do_porter_operation(i1_atop_i2, image2, image1, mask2, mask1));
 
     while (wait_key());
 
-    cv::imshow("1_xor_2", do_porter_operation(i1_xor_i2, image1, image2));
-    cv::imshow("2_xor_1", do_porter_operation(i1_xor_i2, image2, image1));
+    cv::imshow("1_xor_2", do_porter_operation(i1_xor_i2, image1, image2, mask1, mask2));
+    cv::imshow("2_xor_1", do_porter_operation(i1_xor_i2, image2, image1, mask2, mask1));
 }
 
 
@@ -116,6 +116,9 @@ main(int argc, const char** argv)
     cv::Mat image1;
     cv::Mat image2;
 
+    cv::Mat mask1;
+    cv::Mat mask2;
+
     if (imageFile1.size() == 0) {
         std::cout << "Using default image1" << std::endl;
         image1 = cv::Mat::zeros(default_size, CV_8UC3);
@@ -125,6 +128,7 @@ main(int argc, const char** argv)
             cv::Scalar(222, 235, 0), //blue
             cv::FILLED, cv::LINE_8
         );
+        image1.copyTo(mask1);
     } else {
         // open image, grayscale = true
         image1 = open_image(imageFile1.c_str(), false);
@@ -137,6 +141,7 @@ main(int argc, const char** argv)
         // draw a red cross
         centered_rectangle(image2, 96, 512, cv::Scalar(0, 77, 222));
         centered_rectangle(image2, 548, 128, cv::Scalar(0, 77, 222));
+        image2.copyTo(mask2);
     } else {
         // open image, grayscale = true
         image2 = open_image(imageFile2.c_str(), false);
@@ -154,7 +159,7 @@ main(int argc, const char** argv)
 
     while (wait_key());
 
-    do_porter_duff_ops(image1, image2);
+    do_porter_duff_ops(image1, image2, mask1, mask2);
 
     // 'event loop' for keypresses
     while (wait_key());
