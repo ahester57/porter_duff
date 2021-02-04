@@ -11,30 +11,25 @@
 #include "./include/string_helper.hpp"
 
 
-img_struct_t*
-open_image(std::string file_path, bool grayscale)
+void
+open_image(cv::Mat dst, std::string file_path, bool grayscale)
 {
     try {
         // attempt to read the image
-        cv::Mat src;
         if (grayscale) {
-            src = cv::imread(file_path, cv::IMREAD_GRAYSCALE);
+            dst = cv::imread(file_path, cv::IMREAD_GRAYSCALE);
         } else {
-            src = cv::imread(file_path);
+            dst = cv::imread(file_path);
         }
 
-        assert(!src.empty());
+        assert(!dst.empty());
 
-        std::cout << "Image size is:\t\t\t" << src.cols << "x" << src.rows << std::endl;
+        std::cout << "Image size is:\t\t\t" << dst.cols << "x" << dst.rows << std::endl;
 
-        // create the img_struct_t
-        return new img_struct_t {src, file_path, file_path};
     } catch (std::string &str) {
         std::cerr << "Error: " << file_path << ": " << str << std::endl;
-        return NULL;
     } catch (cv::Exception &e) {
         std::cerr << "Error: " << file_path << ": " << e.msg << std::endl;
-        return NULL;
     }
 }
 

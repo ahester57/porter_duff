@@ -11,22 +11,23 @@
 
 #include "./include/cla_parse.hpp"
 #include "./include/dir_func.hpp"
-#include "./include/img_struct.hpp"
 #include "./include/porter_duff_ops.hpp"
 
 
 const std::string WINDOW_NAME = "Porter-Duff";
 
 // CLA variables
-std::string image1;
-std::string image2;
-std::string mask1;
-std::string mask2;
+std::string imageFile1;
+std::string imageFile2;
+std::string maskFile1;
+std::string maskFile2;
 bool grayscale;
 
-img_struct_t* og_image;
-cv::Mat displayed_image;
+cv::Mat image1;
+cv::Mat image2;
 
+const int default_height = 480;
+const int default_width = 640;
 
 // 'event loop' for keypresses
 int
@@ -56,48 +57,73 @@ extract_roi(cv::Mat src, cv::Rect rect)
 }
 
 
+void
+centered_rectangle(cv::Mat dst, int w, int h, cv::Scalar color)
+{
+    cv::rectangle(dst,
+        cv::Rect(
+            (default_width/2)-(w/2),
+            (default_height/2)-(h/2),
+            w, h
+        ),
+        color,
+        cv::FILLED, cv::LINE_8
+    );
+}
+
+
 int
 main(int argc, const char** argv)
 {
     // parse and save command line args
     int parse_result = parse_arguments(
         argc, argv,
-        &image1,
-        &image2,
-        &mask1,
-        &mask2,
+        &imageFile1,
+        &imageFile2,
+        &maskFile1,
+        &maskFile2,
         &grayscale
     );
     if (parse_result != 1) return parse_result;
 
-    if (image1.size() == 0) {
+
+    if (imageFile1.size() == 0) {
         std::cout << "Using default image1" << std::endl;
+        image1 = cv::Mat::zeros(default_height, default_width, CV_8UC3);
+        cv::circle(image1,
+            cv::Point((default_width/2), (default_height/2)), 150,
+            cv::Scalar(222, 235, 0), //blue
+            cv::FILLED, cv::LINE_8
+        );
+    } else {
+        // open image, grayscale = true
+        open_image(image1, imageFile1.c_str(), grayscale);
     }
 
-    if (image2.size() == 0) {
-        std::cout << "Using default image2" << std::endl;
+    if (imageFile2.size() == 0) {
+        std::cout << "Using default imageFile2" << std::endl;
+        image2 = cv::Mat::zeros(default_height, default_width, CV_8UC3);
+        centered_rectangle(image2, 96, 512, cv::Scalar(0, 77, 222));
+        centered_rectangle(image2, 548, 128, cv::Scalar(0, 77, 222));
+    } else {
+        // open image, grayscale = true
+        open_image(image2, imageFile2.c_str(), grayscale);
     }
-
-    // open image, grayscale = true
-    og_image = open_image(image1.c_str(), grayscale);
-
-    assert(og_image != NULL);
 
     // deep keep to displayed_image
-    og_image->image.copyTo(displayed_image);
+    // og_image->image.copyTo(displayed_image);
 
     std::cout << "\nShortcuts:\n\tq\t- quit\n";
 
-    // display the original image
-    cv::imshow(WINDOW_NAME, displayed_image);
+    // display the original images
+    cv::imshow(WINDOW_NAME, image1);
+    cv::imshow("2", image2);
 
     // 'event loop' for keypresses
     while (wait_key());
 
-    og_image->image.release();
-    delete og_image;
-
-    displayed_image.release();
+    image1.release();
+    image2.release();
 
     return 0;
 }
