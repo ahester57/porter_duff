@@ -11,12 +11,10 @@ tested by a driver program.
 
 ----
 
-## Image Highlighting
 
-Image highlighting is generally used to bring attention of a viewer to a specific area of an image while dimming the rest of the
-image to provide context.
+[Porter Duff Operations Visualized](http://ssp.impulsetrain.com/porterduff.html)
 
-#### Task
+## Task
 
 Porter-Duff operators are used for composition of images with binary masks. Their most common use is in green screen
 normally used for weather telecasts. The binary masks define the support of pixels in each input image. The pixels that
