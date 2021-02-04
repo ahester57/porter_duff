@@ -14,8 +14,7 @@ parse_arguments(
     std::string* image1,
     std::string* image2,
     std::string* mask1,
-    std::string* mask2,
-    bool* grayscale
+    std::string* mask2
 ) {
     cv::String keys =
         "{image1 i1  |<none>| input image}"             // image1 (optional)
@@ -23,8 +22,6 @@ parse_arguments(
         "{mask1  m1  |<none>| input image}"             // mask1  (optional)
         "{mask2  m2  |<none>| input image}"             // mask2  (optional)
         "{help h   |      | show help message}";
-    if (grayscale != NULL)
-        keys += "{grayscale g  |      | read grayscale}";
 
     cv::CommandLineParser parser(argc, argv, keys);
 
@@ -65,15 +62,6 @@ parse_arguments(
     } catch (...) {
         std::cerr << "Failed to parse mask2 argument!:" << std::endl;
         return -1;
-    }
-
-    if (grayscale != NULL) {
-        try {
-            *grayscale = (bool) parser.has("g") ? true : false;
-        } catch (...) {
-            std::cerr << "Failed to parse grayscale argument." << std::endl;
-            return -1;
-        }
     }
 
     return 1;

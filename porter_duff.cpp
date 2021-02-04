@@ -21,13 +21,11 @@ std::string imageFile1;
 std::string imageFile2;
 std::string maskFile1;
 std::string maskFile2;
-bool grayscale;
 
-cv::Mat image1;
-cv::Mat image2;
 
 const int default_height = 480;
 const int default_width = 640;
+
 
 // 'event loop' for keypresses
 int
@@ -47,6 +45,8 @@ wait_key()
 }
 
 
+// draw a centered rectange on image 'dst'
+// with given width, height, and color
 void
 centered_rectangle(cv::Mat dst, int w, int h, cv::Scalar color)
 {
@@ -62,6 +62,44 @@ centered_rectangle(cv::Mat dst, int w, int h, cv::Scalar color)
 }
 
 
+void
+do_porter_duff_ops(cv::Mat image1, cv::Mat image2)
+{
+    cv::imshow("clear_1", clear_i1(image1));
+    cv::imshow("clear_2", clear_i1(image2));
+
+    while (wait_key());
+
+    cv::imshow("copy_1", copy_i1(image1));
+    cv::imshow("copy_2", copy_i1(image2));
+
+    while (wait_key());
+
+    cv::imshow("1_over_2", i1_over_i2(image1, image2));
+    cv::imshow("2_over_1", i1_over_i2(image2, image1));
+
+    while (wait_key());
+
+    cv::imshow("1_in_2", i1_in_i2(image1, image2));
+    cv::imshow("2_in_1", i1_in_i2(image2, image1));
+
+    while (wait_key());
+
+    cv::imshow("1_out_2", i1_out_i2(image1, image2));
+    cv::imshow("2_out_1", i1_out_i2(image2, image1));
+
+    while (wait_key());
+
+    cv::imshow("1_atop_2", i1_atop_i2(image1, image2));
+    cv::imshow("2_atop_1", i1_atop_i2(image2, image1));
+
+    while (wait_key());
+
+    cv::imshow("1_xor_2", i1_xor_i2(image1, image2));
+    cv::imshow("2_xor_1", i1_xor_i2(image2, image1));
+}
+
+
 int
 main(int argc, const char** argv)
 {
@@ -71,15 +109,17 @@ main(int argc, const char** argv)
         &imageFile1,
         &imageFile2,
         &maskFile1,
-        &maskFile2,
-        &grayscale
+        &maskFile2
     );
     if (parse_result != 1) return parse_result;
 
+    cv::Mat image1;
+    cv::Mat image2;
 
     if (imageFile1.size() == 0) {
         std::cout << "Using default image1" << std::endl;
         image1 = cv::Mat::zeros(default_height, default_width, CV_8UC3);
+        // draw a blue circle
         cv::circle(image1,
             cv::Point((default_width/2), (default_height/2)), 150,
             cv::Scalar(222, 235, 0), //blue
@@ -87,17 +127,18 @@ main(int argc, const char** argv)
         );
     } else {
         // open image, grayscale = true
-        open_image(image1, imageFile1.c_str(), grayscale);
+        open_image(image1, imageFile1.c_str(), false);
     }
 
     if (imageFile2.size() == 0) {
-        std::cout << "Using default imageFile2" << std::endl;
+        std::cout << "Using default image2" << std::endl;
         image2 = cv::Mat::zeros(default_height, default_width, CV_8UC3);
+        // draw a red cross
         centered_rectangle(image2, 96, 512, cv::Scalar(0, 77, 222));
         centered_rectangle(image2, 548, 128, cv::Scalar(0, 77, 222));
     } else {
         // open image, grayscale = true
-        open_image(image2, imageFile2.c_str(), grayscale);
+        open_image(image2, imageFile2.c_str(), false);
     }
 
     // deep keep to displayed_image
@@ -111,39 +152,7 @@ main(int argc, const char** argv)
 
     while (wait_key());
 
-    cv::imshow("Clear_1", clear_i1(image1));
-    cv::imshow("Clear_2", clear_i1(image2));
-
-    // while (wait_key());
-
-    cv::imshow("Copy_1", copy_i1(image1));
-    cv::imshow("Copy_2", copy_i1(image2));
-
-    // while (wait_key());
-
-    cv::imshow("1_over_2", i1_over_i2(image1, image2));
-    cv::imshow("2_over_1", i1_over_i2(image2, image1));
-
-    // while (wait_key());
-
-    cv::imshow("1_in_2", i1_in_i2(image1, image2));
-    cv::imshow("2_in_1", i1_in_i2(image2, image1));
-
-
-    // while (wait_key());
-
-    cv::imshow("1_out_2", i1_out_i2(image1, image2));
-    cv::imshow("2_out_1", i1_out_i2(image2, image1));
-
-    // while (wait_key());
-
-    cv::imshow("1_atop_2", i1_atop_i2(image1, image2));
-    cv::imshow("2_atop_1", i1_atop_i2(image2, image1));
-
-    // while (wait_key());
-
-    cv::imshow("1_xor_2", i1_xor_i2(image1, image2));
-    cv::imshow("2_xor_1", i1_xor_i2(image2, image1));
+    do_porter_duff_ops(image1, image2);
 
     // 'event loop' for keypresses
     while (wait_key());

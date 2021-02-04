@@ -14,8 +14,7 @@ int parse_arguments(
     std::string* image1,
     std::string* image2,
     std::string* mask1,
-    std::string* mask2,
-    bool* grayscale
+    std::string* mask2
 );
 
 #endif
