@@ -114,15 +114,20 @@ main(int argc, const char** argv)
     cv::imshow("Clear_1", clear_i1(image1));
     cv::imshow("Clear_2", clear_i1(image2));
 
-    while (wait_key());
+    // while (wait_key());
 
     cv::imshow("Copy_1", copy_i1(image1));
     cv::imshow("Copy_2", copy_i1(image2));
 
-    while (wait_key());
+    // while (wait_key());
 
-    cv::imshow("1 over 2", i1_over_i2(image1, image2));
-    cv::imshow("2 over 1", i1_over_i2(image2, image1));
+    cv::imshow("1_over_2", i1_over_i2(image1, image2));
+    cv::imshow("2_over_1", i1_over_i2(image2, image1));
+
+    // while (wait_key());
+
+    cv::imshow("1_in_2", i1_in_i2(image1, image2));
+    cv::imshow("2_in_1", i1_in_i2(image2, image1));
 
     // 'event loop' for keypresses
     while (wait_key());
