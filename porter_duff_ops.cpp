@@ -7,6 +7,8 @@
 #include "./include/porter_duff_ops.hpp"
 
 
+const cv::Vec3b ZERO_PIXEL = cv::Vec3b(0, 0, 0);
+
 // Ir = 0
 // Mr = 0
 cv::Mat
@@ -30,7 +32,23 @@ copy_i1(cv::Mat src)
 cv::Mat
 i1_over_i2(cv::Mat img1, cv::Mat img2)
 {
-    return cv::Mat();
+    assert(img1.size() == img2.size());
+    assert(img1.type() == img2.type());
+    cv::Mat result = cv::Mat::zeros(img1.size(), img1.type());
+    for (int r = 0; r < result.rows; r++) {
+        for (int c = 0; c < result.cols; c++) {
+            cv::Vec3b pixel1 = img1.at<cv::Vec3b>(r, c);
+            cv::Vec3b pixel2 = img2.at<cv::Vec3b>(r, c);
+            cv::Vec3b result_pixel;
+            if (pixel1 == ZERO_PIXEL) {
+                result_pixel = pixel2;
+            } else {
+                result_pixel = pixel1;
+            }
+            result.at<cv::Vec3b>(r, c) = result_pixel;
+        }
+    }
+    return result;
 }
 
 // Ir = I1

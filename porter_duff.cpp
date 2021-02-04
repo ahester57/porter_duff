@@ -47,21 +47,6 @@ wait_key()
 }
 
 
-cv::Mat
-do_clear(cv::Mat src)
-{
-    return clear_i1(src);
-}
-
-
-cv::Mat
-do_copy(cv::Mat src)
-{
-    // cv::Mat copy;
-    return copy_i1(src);
-}
-
-
 void
 centered_rectangle(cv::Mat dst, int w, int h, cv::Scalar color)
 {
@@ -126,13 +111,18 @@ main(int argc, const char** argv)
 
     while (wait_key());
 
-    cv::imshow("Clear_1", do_clear(image1));
-    cv::imshow("Clear_2", do_clear(image2));
+    cv::imshow("Clear_1", clear_i1(image1));
+    cv::imshow("Clear_2", clear_i1(image2));
 
     while (wait_key());
 
-    cv::imshow("Copy_1", do_copy(image1));
-    cv::imshow("Copy_2", do_copy(image2));
+    cv::imshow("Copy_1", copy_i1(image1));
+    cv::imshow("Copy_2", copy_i1(image2));
+
+    while (wait_key());
+
+    cv::imshow("1 over 2", i1_over_i2(image1, image2));
+    cv::imshow("2 over 1", i1_over_i2(image2, image1));
 
     // 'event loop' for keypresses
     while (wait_key());
