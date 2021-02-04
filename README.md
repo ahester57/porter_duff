@@ -11,6 +11,7 @@ tested by a driver program.
 
 ----
 
+[Tom Duff, Thomas Porter. *Compositing Digital Images*, 1984.](https://graphics.pixar.com/library/Compositing/paper.pdf)
 
 [Porter Duff Operations Visualized](http://ssp.impulsetrain.com/porterduff.html)
 
