@@ -12,6 +12,7 @@
 #include "./include/cla_parse.hpp"
 #include "./include/dir_func.hpp"
 #include "./include/img_struct.hpp"
+#include "./include/porter_duff_ops.hpp"
 
 
 const std::string WINDOW_NAME = "Porter-Duff";
