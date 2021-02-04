@@ -135,6 +135,11 @@ main(int argc, const char** argv)
     cv::imshow("1_out_2", i1_out_i2(image1, image2));
     cv::imshow("2_out_1", i1_out_i2(image2, image1));
 
+    // while (wait_key());
+
+    cv::imshow("1_atop_2", i1_atop_i2(image1, image2));
+    cv::imshow("2_atop_1", i1_atop_i2(image2, image1));
+
     // 'event loop' for keypresses
     while (wait_key());
 

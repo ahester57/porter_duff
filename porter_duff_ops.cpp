@@ -104,7 +104,21 @@ i1_out_i2(cv::Mat img1, cv::Mat img2)
 cv::Mat
 i1_atop_i2(cv::Mat img1, cv::Mat img2)
 {
-    return cv::Mat();
+    assert(img1.size() == img2.size());
+    assert(img1.type() == img2.type());
+    cv::Mat result = cv::Mat::zeros(img1.size(), img1.type());
+    for (int r = 0; r < result.rows; r++) {
+        for (int c = 0; c < result.cols; c++) {
+            cv::Vec3b pixel1 = img1.at<cv::Vec3b>(r, c);
+            cv::Vec3b pixel2 = img2.at<cv::Vec3b>(r, c);
+            cv::Vec3b result_pixel = pixel2;
+            if (pixel1 != ZERO_PIXEL && pixel2 != ZERO_PIXEL) {
+                result_pixel = pixel1;
+            }
+            result.at<cv::Vec3b>(r, c) = result_pixel;
+        }
+    }
+    return result;
 }
 
 // Ir = (I1 ∧ M1 ∧ ¬M2) ∨ (I2 ∧ ¬M1 ∧ M2)
