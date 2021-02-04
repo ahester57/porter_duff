@@ -32,13 +32,7 @@ copy_i1(cv::Mat src)
 cv::Vec3b
 i1_over_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 {
-    cv::Vec3b result_pixel;
-    if (pixel1 == ZERO_PIXEL) {
-        result_pixel = pixel2;
-    } else {
-        result_pixel = pixel1;
-    }
-    return result_pixel;
+    return (pixel1 == ZERO_PIXEL) ? pixel2 : pixel1;
 }
 
 // Ir = I1
@@ -46,13 +40,7 @@ i1_over_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 cv::Vec3b
 i1_in_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 {
-    cv::Vec3b result_pixel;
-    if (pixel2 != ZERO_PIXEL) {
-        result_pixel = pixel1;
-    } else {
-        result_pixel = ZERO_PIXEL;
-    }
-    return result_pixel;
+    return (pixel2 != ZERO_PIXEL) ? pixel1 : ZERO_PIXEL;
 }
 
 // Ir = I1
@@ -60,13 +48,7 @@ i1_in_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 cv::Vec3b
 i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 {
-    cv::Vec3b result_pixel;
-    if (pixel2 == ZERO_PIXEL) {
-        result_pixel = pixel1;
-    } else {
-        result_pixel = ZERO_PIXEL;
-    }
-    return result_pixel;
+    return (pixel2 == ZERO_PIXEL) ? pixel1 : ZERO_PIXEL;
 }
 
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ ¬M2)
@@ -74,11 +56,7 @@ i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 cv::Vec3b
 i1_atop_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 {
-    cv::Vec3b result_pixel = pixel2;
-    if (pixel1 != ZERO_PIXEL && pixel2 != ZERO_PIXEL) {
-        result_pixel = pixel1;
-    }
-    return result_pixel;
+    return (pixel1 != ZERO_PIXEL && pixel2 != ZERO_PIXEL) ? pixel1 :  pixel2;
 }
 
 // Ir = (I1 ∧ M1 ∧ ¬M2) ∨ (I2 ∧ ¬M1 ∧ M2)
@@ -86,13 +64,9 @@ i1_atop_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 cv::Vec3b
 i1_xor_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 {
-    cv::Vec3b result_pixel;
-    if (pixel1 != ZERO_PIXEL && pixel2 == ZERO_PIXEL) {
-        result_pixel = pixel1;
-    } else if (pixel1 == ZERO_PIXEL && pixel2 != ZERO_PIXEL) {
-        result_pixel = pixel2;
-    }
-    return result_pixel;
+    return (pixel1 != ZERO_PIXEL && pixel2 == ZERO_PIXEL) ? pixel1
+            : (pixel1 == ZERO_PIXEL && pixel2 != ZERO_PIXEL) ? pixel2
+            : ZERO_PIXEL;
 }
 
 // do given operation on given images
