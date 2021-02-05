@@ -30,7 +30,7 @@ copy_i1(cv::Mat src)
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ M2 ∧ ¬M1)
 // Mr = M1 ∨ M2
 cv::Vec3b
-i1_over_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
+i1_over_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 {
     return (pixel1 == ZERO_PIXEL) ? pixel2 : pixel1;
 }
@@ -38,7 +38,7 @@ i1_over_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 // Ir = I1
 // Mr = M1 ∧ M2
 cv::Vec3b
-i1_in_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
+i1_in_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 {
     return (pixel2 != ZERO_PIXEL) ? pixel1 : ZERO_PIXEL;
 }
@@ -46,7 +46,7 @@ i1_in_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 // Ir = I1
 // Mr = M1 ∧ ¬M2
 cv::Vec3b
-i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
+i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 {
     return (pixel2 == ZERO_PIXEL) ? pixel1 : ZERO_PIXEL;
 }
@@ -54,7 +54,7 @@ i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ ¬M2)
 // Mr = M2
 cv::Vec3b
-i1_atop_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
+i1_atop_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 {
     return (pixel1 != ZERO_PIXEL && pixel2 != ZERO_PIXEL) ? pixel1 :  pixel2;
 }
@@ -62,7 +62,7 @@ i1_atop_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 // Ir = (I1 ∧ M1 ∧ ¬M2) ∨ (I2 ∧ ¬M1 ∧ M2)
 // Mr = (M1 ∧ ¬M2) ∨ (¬M1 ∧ M2)
 cv::Vec3b
-i1_xor_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
+i1_xor_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 {
     return (pixel1 != ZERO_PIXEL && pixel2 == ZERO_PIXEL) ? pixel1
             : (pixel1 == ZERO_PIXEL && pixel2 != ZERO_PIXEL) ? pixel2
@@ -72,7 +72,7 @@ i1_xor_i2(cv::Vec3b pixel1, cv::Vec3b pixel2)
 // do given operation on given images
 cv::Mat
 do_porter_operation(
-    cv::Vec3b operation(cv::Vec3b, cv::Vec3b),
+    cv::Vec3b operation(cv::Vec3b, cv::Vec3b, cv::Vec3b, cv::Vec3b),
     cv::Mat img1, cv::Mat img2,
     cv::Mat mask1, cv::Mat mask2
 ) {
@@ -81,10 +81,14 @@ do_porter_operation(
     cv::Mat result = cv::Mat::zeros(img1.size(), img1.type());
     for (int r = 0; r < result.rows; r++) {
         for (int c = 0; c < result.cols; c++) {
-            cv::Vec3b pixel1 = img1.at<cv::Vec3b>(r, c);
-            cv::Vec3b pixel2 = img2.at<cv::Vec3b>(r, c);
             // do pixel operation
-            result.at<cv::Vec3b>(r, c) = operation(pixel1, pixel2);
+            result.at<cv::Vec3b>(r, c)
+                = operation(
+                    img1.at<cv::Vec3b>(r, c),
+                    img2.at<cv::Vec3b>(r, c),
+                    mask1.at<cv::Vec3b>(r, c),
+                    mask2.at<cv::Vec3b>(r, c)
+                );
         }
     }
     return result;

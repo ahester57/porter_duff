@@ -148,9 +148,6 @@ main(int argc, const char** argv)
         cv::resize(image2, image2, default_size);
     }
 
-    // deep keep to displayed_image
-    // og_image->image.copyTo(displayed_image);
-
     std::cout << "\nShortcuts:\n\tq\t- quit\n";
 
     // display the original images
