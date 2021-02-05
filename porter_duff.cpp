@@ -130,7 +130,14 @@ main(int argc, const char** argv)
             cv::Scalar(222, 235, 0), //blue
             cv::FILLED, cv::LINE_8
         );
-        image1.copyTo(mask1);
+        // draw circle mask
+        mask1 = cv::Mat::zeros(image1.size(), CV_8UC1);
+        cv::circle(mask1,
+            cv::Point((default_width/2), (default_height/2)), 150,
+            cv::Scalar(255, 255, 255), //blue
+            cv::FILLED, cv::LINE_8
+        );
+        mask1 /= 255;
     } else {
         // open image, grayscale = true
         image1 = open_image(imageFile1.c_str(), false);
@@ -143,7 +150,12 @@ main(int argc, const char** argv)
         // draw a red cross
         centered_rectangle(image2, 96, 512, cv::Scalar(0, 77, 222));
         centered_rectangle(image2, 548, 128, cv::Scalar(0, 77, 222));
-        image2.copyTo(mask2);
+        // draw cross mask
+        mask2 = cv::Mat::zeros(image2.size(), CV_8UC1);
+        centered_rectangle(mask2, 96, 512, cv::Scalar(255, 255, 255));
+        centered_rectangle(mask2, 548, 128, cv::Scalar(255, 255, 255));
+        mask2 /= 255;
+
     } else {
         // open image, grayscale = true
         image2 = open_image(imageFile2.c_str(), false);
