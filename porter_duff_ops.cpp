@@ -121,5 +121,17 @@ test_i1_atop_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2)
     // cv::bitwise_or(t0, t2, Ir);
     // cv::Vec3b result;
     // cv::bitwise_and(Ir, mask2, result);
-    return ((img1 & mask1) | (img2 & ~mask2)) ^ mask2;
+    cv::Mat i1, i2;
+    cv::Mat m1, m2;
+
+    mask1.convertTo(m1, CV_8UC1);
+    mask2.convertTo(m2, CV_8UC1);
+    m1 /= 255;
+    m2 /= 255;
+    img1.copyTo(i1, m1);
+    img2.copyTo(i2, ~m2);
+    cv::Mat Ir = i1 | i2;
+    cv::Mat result;
+    Ir.copyTo(result, m2);
+    return result;
 }
