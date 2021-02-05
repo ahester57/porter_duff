@@ -40,4 +40,7 @@ cv::Mat do_porter_operation(
     cv::Mat mask1, cv::Mat mask2
 );
 
+cv::Mat
+test_i1_atop_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2);
+
 #endif

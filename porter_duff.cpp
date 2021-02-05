@@ -93,6 +93,8 @@ do_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
     cv::imshow("1_atop_2", do_porter_operation(i1_atop_i2, image1, image2, mask1, mask2));
     cv::imshow("2_atop_1", do_porter_operation(i1_atop_i2, image2, image1, mask2, mask1));
 
+    // cv::imshow("1_atop_2", test_i1_atop_i2(image1, image2, mask1, mask2));
+    // cv::imshow("2_atop_1", test_i1_atop_i2(image2, image1, mask2, mask1));
     while (wait_key());
 
     cv::imshow("1_xor_2", do_porter_operation(i1_xor_i2, image1, image2, mask1, mask2));
