@@ -40,7 +40,12 @@ cv::Mat do_porter_operation(
     cv::Mat mask1, cv::Mat mask2
 );
 
-cv::Mat
-test_i1_atop_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2);
+cv::Mat bitwise_clear_i1  (cv::Mat src, cv::Mat mask);
+cv::Mat bitwise_copy_i1   (cv::Mat src, cv::Mat mask);
+cv::Mat bitwise_i1_over_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2);
+cv::Mat bitwise_i1_in_i2  (cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2);
+cv::Mat bitwise_i1_out_i2 (cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2);
+cv::Mat bitwise_i1_atop_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2);
+cv::Mat bitwise_i1_xor_i2 (cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2);
 
 #endif

@@ -65,18 +65,27 @@ centered_rectangle(cv::Mat dst, int w, int h, cv::Scalar color)
 void
 do_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
 {
-    cv::imshow("clear_1", clear_i1(image1));
-    cv::imshow("clear_2", clear_i1(image2));
+    // cv::imshow("clear_1", clear_i1(image1));
+    // cv::imshow("clear_2", clear_i1(image2));
+
+    cv::imshow("bitwise_clear_1", bitwise_clear_i1(image1, mask1));
+    cv::imshow("bitwise_clear_2", bitwise_clear_i1(image2, mask2));
 
     while (wait_key());
 
-    cv::imshow("copy_1", copy_i1(image1));
-    cv::imshow("copy_2", copy_i1(image2));
+    // cv::imshow("copy_1", copy_i1(image1));
+    // cv::imshow("copy_2", copy_i1(image2));
+
+    cv::imshow("bitwise_copy_1", bitwise_copy_i1(image1, mask1));
+    cv::imshow("bitwise_copy_2", bitwise_copy_i1(image2, mask2));
 
     while (wait_key());
 
-    cv::imshow("1_over_2", do_porter_operation(i1_over_i2, image1, image2, mask1, mask2));
-    cv::imshow("2_over_1", do_porter_operation(i1_over_i2, image2, image1, mask2, mask1));
+    // cv::imshow("1_over_2", do_porter_operation(i1_over_i2, image1, image2, mask1, mask2));
+    // cv::imshow("2_over_1", do_porter_operation(i1_over_i2, image2, image1, mask2, mask1));
+
+    cv::imshow("bitwise_1_over_2", bitwise_i1_over_i2(image1, image2, mask1, mask2));
+    cv::imshow("bitwise_2_over_1", bitwise_i1_over_i2(image2, image1, mask2, mask1));
 
     while (wait_key());
 
@@ -93,8 +102,9 @@ do_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
     // cv::imshow("1_atop_2", do_porter_operation(i1_atop_i2, image1, image2, mask1, mask2));
     // cv::imshow("2_atop_1", do_porter_operation(i1_atop_i2, image2, image1, mask2, mask1));
 
-    cv::imshow("1_atop_2", test_i1_atop_i2(image1, image2, mask1, mask2));
-    cv::imshow("2_atop_1", test_i1_atop_i2(image2, image1, mask2, mask1));
+    cv::imshow("bitwise_1_atop_2", bitwise_i1_atop_i2(image1, image2, mask1, mask2));
+    cv::imshow("bitwise_2_atop_1", bitwise_i1_atop_i2(image2, image1, mask2, mask1));
+
     while (wait_key());
 
     cv::imshow("1_xor_2", do_porter_operation(i1_xor_i2, image1, image2, mask1, mask2));
