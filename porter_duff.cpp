@@ -17,11 +17,6 @@
 
 const std::string WINDOW_NAME = "Porter-Duff";
 
-// CLA variables
-std::string imageFile1;
-std::string imageFile2;
-std::string maskFile1;
-std::string maskFile2;
 
 
 const int default_height = 480;
@@ -142,13 +137,21 @@ do_bitwise_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Ma
 int
 main(int argc, const char** argv)
 {
+    // CLA variables
+    std::string imageFile1;
+    std::string imageFile2;
+    std::string maskFile1;
+    std::string maskFile2;
+    bool pixel;
+
     // parse and save command line args
     int parse_result = parse_arguments(
         argc, argv,
         &imageFile1,
         &imageFile2,
         &maskFile1,
-        &maskFile2
+        &maskFile2,
+        &pixel
     );
     if (parse_result != 1) return parse_result;
 
@@ -207,7 +210,11 @@ main(int argc, const char** argv)
 
     while (wait_key());
 
-    do_bitwise_porter_duff_ops(image1, image2, mask1, mask2);
+    if (pixel) {
+        do_porter_duff_ops(image1, image2, mask1, mask2);
+    } else {
+        do_bitwise_porter_duff_ops(image1, image2, mask1, mask2);
+    }
 
     // 'event loop' for keypresses
     while (wait_key());

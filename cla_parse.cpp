@@ -14,14 +14,16 @@ parse_arguments(
     std::string* image1,
     std::string* image2,
     std::string* mask1,
-    std::string* mask2
+    std::string* mask2,
+    bool* pixel
 ) {
     cv::String keys =
         "{image1 i1  |<none>| input image}"             // image1 (optional)
         "{image2 i2  |<none>| input image}"             // image2 (optional)
         "{mask1  m1  |<none>| input image}"             // mask1  (optional)
         "{mask2  m2  |<none>| input image}"             // mask2  (optional)
-        "{help h   |      | show help message}";
+        "{help h     |      | show help message}"
+        "{pixel p    |      | use pixel instead of bitwise}";
 
     cv::CommandLineParser parser(argc, argv, keys);
 
@@ -61,6 +63,13 @@ parse_arguments(
         *mask2 = (std::string) parser.get<std::string>("m2").c_str();
     } catch (...) {
         std::cerr << "Failed to parse mask2 argument!:" << std::endl;
+        return -1;
+    }
+
+    try {
+        *pixel = (bool) parser.has("p") ? true : false;
+    } catch (...) {
+        std::cerr << "Failed to parse pixel argument." << std::endl;
         return -1;
     }
 
