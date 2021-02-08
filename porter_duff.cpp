@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 
+#include "./include/bitwise_porter_duff_ops.hpp"
 #include "./include/cla_parse.hpp"
 #include "./include/dir_func.hpp"
 #include "./include/porter_duff_ops.hpp"
@@ -175,7 +176,7 @@ main(int argc, const char** argv)
         );
         mask1 /= 255;
     } else {
-        // open image, grayscale = true
+        // open image, grayscale = false
         image1 = open_image(imageFile1.c_str(), false);
         cv::resize(image1, image1, default_size);
     }
@@ -193,7 +194,7 @@ main(int argc, const char** argv)
         mask2 /= 255;
 
     } else {
-        // open image, grayscale = true
+        // open image, grayscale = false
         image2 = open_image(imageFile2.c_str(), false);
         cv::resize(image2, image2, default_size);
     }
