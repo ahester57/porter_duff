@@ -157,20 +157,17 @@ bitwise_i1_in_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2)
     return Ir;
 }
 
-// // Ir = I1
-// // Mr = M1 ∧ ¬M2
-// cv::Mat
-// bitwise_i1_out_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2)
-// {
-//     // cv::Vec3b not_mask2;
-//     // cv::bitwise_not(mask2, not_mask2);
-//     // cv::Vec3b Mr;
-//     // cv::bitwise_and(mask1, not_mask2, Mr);
-//     // cv::Vec3b result;
-//     // cv::bitwise_and(pixel1, Mr, result);
-//     // return result;
-//     return (pixel2 == ZERO_PIXEL) ? pixel1 : ZERO_PIXEL;
-// }
+// Ir = I1
+// Mr = M1 ∧ ¬M2
+cv::Mat
+bitwise_i1_out_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2)
+{
+    cv::Mat Mr;
+    cv::bitwise_and(mask1, ~mask2, Mr);
+    cv::Mat Ir;
+    img1.copyTo(Ir, Mr);
+    return Ir;
+}
 
 // Ir = (I1 ∧ M1) ∨ (I2 ∧ ¬M2)
 // Mr = M2

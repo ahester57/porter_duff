@@ -97,8 +97,11 @@ do_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
 
     while (wait_key());
 
-    cv::imshow("1_out_2", do_porter_operation(i1_out_i2, image1, image2, mask1, mask2));
-    cv::imshow("2_out_1", do_porter_operation(i1_out_i2, image2, image1, mask2, mask1));
+    // cv::imshow("1_out_2", do_porter_operation(i1_out_i2, image1, image2, mask1, mask2));
+    // cv::imshow("2_out_1", do_porter_operation(i1_out_i2, image2, image1, mask2, mask1));
+
+    cv::imshow("bitwise_1_out_2", bitwise_i1_out_i2(image1, image2, mask1, mask2));
+    cv::imshow("bitwise_2_out_1", bitwise_i1_out_i2(image2, image1, mask2, mask1));
 
     while (wait_key());
 
