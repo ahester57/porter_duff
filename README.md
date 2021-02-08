@@ -44,8 +44,6 @@ as described in the implementation steps.
 ```
 Usage: porter-duff.exe [params]
 
-        -g, --grayscale
-                read grayscale
         -h, --help (value:true)
                 show help message
         --i1, --image1 (value:<none>)
