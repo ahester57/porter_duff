@@ -48,13 +48,6 @@ i1_in_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 cv::Vec3b
 i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 {
-    // cv::Vec3b not_mask2;
-    // cv::bitwise_not(mask2, not_mask2);
-    // cv::Vec3b Mr;
-    // cv::bitwise_and(mask1, not_mask2, Mr);
-    // cv::Vec3b result;
-    // cv::bitwise_and(pixel1, Mr, result);
-    // return result;
     return (pixel2 == ZERO_PIXEL) ? pixel1 : ZERO_PIXEL;
 }
 
@@ -63,14 +56,6 @@ i1_out_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 cv::Vec3b
 i1_atop_i2(cv::Vec3b pixel1, cv::Vec3b pixel2, cv::Vec3b mask1, cv::Vec3b mask2)
 {
-    // cv::Vec3b t0, t1, t2, Ir;
-    // cv::bitwise_and(pixel1, mask1, t0);
-    // cv::bitwise_not(mask2, t1);
-    // cv::bitwise_and(pixel2, t1, t2);
-    // cv::bitwise_or(t0, t2, Ir);
-    // cv::Vec3b result;
-    // cv::bitwise_and(Ir, mask2, result);
-    // return result;
     return (pixel1 != ZERO_PIXEL && pixel2 != ZERO_PIXEL) ? pixel1 :  pixel2;
 }
 
@@ -184,10 +169,16 @@ bitwise_i1_atop_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2)
 
 // Ir = (I1 ∧ M1 ∧ ¬M2) ∨ (I2 ∧ ¬M1 ∧ M2)
 // Mr = (M1 ∧ ¬M2) ∨ (¬M1 ∧ M2)
-// cv::Mat
-// bitwise_i1_xor_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2)
-// {
-//     return (pixel1 != ZERO_PIXEL && pixel2 == ZERO_PIXEL) ? pixel1
-//             : (pixel1 == ZERO_PIXEL && pixel2 != ZERO_PIXEL) ? pixel2
-//             : ZERO_PIXEL;
-// }
+cv::Mat
+bitwise_i1_xor_i2(cv::Mat img1, cv::Mat img2, cv::Mat mask1, cv::Mat mask2)
+{
+    cv::Mat i1, i2;
+    img1.copyTo(i1, mask1);
+    i1.copyTo(i1, ~mask2);
+    img2.copyTo(i2, ~mask1);
+    i2.copyTo(i2, mask2);
+    cv::Mat Mr = (mask1 & ~mask2) | (~mask1 & mask2);
+    cv::Mat Ir;
+    cv::bitwise_or(i1, i2, Ir, Mr);
+    return Ir;
+}
