@@ -11,17 +11,12 @@
 
 #include "./include/bitwise_porter_duff_ops.hpp"
 #include "./include/cla_parse.hpp"
-#include "./include/dir_func.hpp"
+#include "./include/pd_initializer.hpp"
 #include "./include/porter_duff_ops.hpp"
 
 
 const std::string WINDOW_NAME = "Porter-Duff";
 
-
-
-const int default_height = 480;
-const int default_width = 640;
-const cv::Size default_size = cv::Size(default_width, default_height);
 
 // 'event loop' for keypresses
 int
@@ -40,24 +35,7 @@ wait_key()
     return 1;
 }
 
-
-// draw a centered rectange on image 'dst'
-// with given width, height, and color
-void
-centered_rectangle(cv::Mat dst, int w, int h, cv::Scalar color)
-{
-    cv::rectangle(dst,
-        cv::Rect(
-            (default_width/2)-(w/2),
-            (default_height/2)-(h/2),
-            w, h
-        ),
-        color,
-        cv::FILLED, cv::LINE_8
-    );
-}
-
-
+// do pixel-wise operations
 void
 do_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
 {
@@ -95,7 +73,7 @@ do_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
     cv::imshow("2_xor_1", do_porter_operation(i1_xor_i2, image2, image1, mask2, mask1));
 }
 
-
+// do bitwise operations on whole image
 void
 do_bitwise_porter_duff_ops(cv::Mat image1, cv::Mat image2, cv::Mat mask1, cv::Mat mask2)
 {
@@ -156,51 +134,14 @@ main(int argc, const char** argv)
     if (parse_result != 1) return parse_result;
 
     cv::Mat image1;
-    cv::Mat image2;
-
     cv::Mat mask1;
+
+    open_or_create_image_1(imageFile1, &image1, &mask1);
+
+    cv::Mat image2;
     cv::Mat mask2;
 
-    if (imageFile1.size() == 0) {
-        std::cout << "Using default image1" << std::endl;
-        image1 = cv::Mat::zeros(default_size, CV_8UC3);
-        // draw a blue circle
-        cv::circle(image1,
-            cv::Point((default_width/2), (default_height/2)), 150,
-            cv::Scalar(222, 235, 0), //blue
-            cv::FILLED, cv::LINE_8
-        );
-        // draw circle mask
-        mask1 = cv::Mat::zeros(image1.size(), CV_8UC1);
-        cv::circle(mask1,
-            cv::Point((default_width/2), (default_height/2)), 150,
-            cv::Scalar(255, 255, 255), //blue
-            cv::FILLED, cv::LINE_8
-        );
-        mask1 /= 255;
-    } else {
-        // open image, grayscale = false
-        image1 = open_image(imageFile1.c_str(), false);
-        cv::resize(image1, image1, default_size);
-    }
-
-    if (imageFile2.size() == 0) {
-        std::cout << "Using default image2" << std::endl;
-        image2 = cv::Mat::zeros(default_size, CV_8UC3);
-        // draw a red cross
-        centered_rectangle(image2, 96, 512, cv::Scalar(0, 77, 222));
-        centered_rectangle(image2, 548, 128, cv::Scalar(0, 77, 222));
-        // draw cross mask
-        mask2 = cv::Mat::zeros(image2.size(), CV_8UC1);
-        centered_rectangle(mask2, 96, 512, cv::Scalar(255, 255, 255));
-        centered_rectangle(mask2, 548, 128, cv::Scalar(255, 255, 255));
-        mask2 /= 255;
-
-    } else {
-        // open image, grayscale = false
-        image2 = open_image(imageFile2.c_str(), false);
-        cv::resize(image2, image2, default_size);
-    }
+    open_or_create_image_2(imageFile2, &image2, &mask2);
 
     std::cout << "\nShortcuts:\n\tq\t- quit\n";
 
