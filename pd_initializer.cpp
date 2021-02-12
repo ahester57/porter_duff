@@ -59,7 +59,6 @@ open_or_create_image_1(std::string imageFile, cv::Mat* image, cv::Mat* mask)
         cv::Scalar(255, 255, 255), //blue
         cv::FILLED, cv::LINE_8
     );
-    *mask /= 255;
 }
 
 // a red cross
@@ -82,5 +81,4 @@ open_or_create_image_2(std::string imageFile, cv::Mat* image, cv::Mat* mask)
     *mask = cv::Mat::zeros(image->size(), CV_8UC1);
     centered_rectangle(*mask, 96, 512, cv::Scalar(255, 255, 255));
     centered_rectangle(*mask, 548, 128, cv::Scalar(255, 255, 255));
-    *mask /= 255;
 }
